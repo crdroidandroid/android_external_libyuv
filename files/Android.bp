@@ -1,3 +1,27 @@
+package {
+    default_applicable_licenses: ["external_libyuv_files_license"],
+}
+
+// Added automatically by a large-scale-change
+//
+// large-scale-change included anything that looked like it might be a license
+// text as a license_text. e.g. LICENSE, NOTICE, COPYING etc.
+//
+// Please consider removing redundant or irrelevant files from 'license_text:'.
+// See: http://go/android-license-faq
+license {
+    name: "external_libyuv_files_license",
+    visibility: [":__subpackages__"],
+    license_kinds: [
+        "SPDX-license-identifier-BSD",
+    ],
+    license_text: [
+        "LICENSE",
+        "LICENSE_THIRD_PARTY",
+        "PATENTS",
+    ],
+}
+
 cc_library {
     name: "libyuv",
     vendor_available: true,
@@ -63,6 +87,12 @@ cc_library {
         "-O3",
     ],
 
+    arch: {
+        arm: {
+            cflags: ["-mfpu=neon"],
+        },
+    },
+
     shared_libs: ["libjpeg"],
 
     export_include_dirs: ["include"],
@@ -121,19 +151,19 @@ cc_test {
 }
 
 cc_test {
-    name: "i444tonv12_eg",
+    name: "cpuid",
     gtest: false,
     srcs: [
-        "util/i444tonv12_eg.cc",
+        "util/cpuid.c",
     ],
     static_libs: ["libyuv"],
 }
 
 cc_test {
-    name: "cpuid",
+    name: "i444tonv12_eg",
     gtest: false,
     srcs: [
-        "util/cpuid.c",
+        "util/i444tonv12_eg.cc",
     ],
     static_libs: ["libyuv"],
 }
@@ -145,6 +175,15 @@ cc_test {
         "util/psnr_main.cc",
         "util/psnr.cc",
         "util/ssim.cc",
+    ],
+    static_libs: ["libyuv"],
+}
+
+cc_test {
+    name: "yuvconstants",
+    gtest: false,
+    srcs: [
+        "util/yuvconstants.c",
     ],
     static_libs: ["libyuv"],
 }
